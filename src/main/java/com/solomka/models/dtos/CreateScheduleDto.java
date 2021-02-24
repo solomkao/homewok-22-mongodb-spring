@@ -8,6 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateScheduleDto {
-
-    private Long minutes;
+    private String schedule;
 }

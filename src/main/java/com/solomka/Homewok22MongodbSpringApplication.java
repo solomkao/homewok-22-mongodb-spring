@@ -31,16 +31,16 @@ public class Homewok22MongodbSpringApplication {
     @PostConstruct
     @SneakyThrows
     public void fillMongoDB() {
-//        var db = mongoClient.getDatabase("test");
-//        MongoCollection<Document> collection = db.getCollection("alarms");
-//        db.createCollection("alarms");
-//        Document document = new Document();
-//        document.append("date", Utils.convertDateToString(new Date()));
-//        document.append("disable", false);
-//        document.append("name", "wake");
-//        document.append("ringtone", "Leonard Cohen - Avalanche");
-//        document.append("schedule", Schedule.ONCE.toString());
-//        collection.insertOne(document);
+        var db = mongoClient.getDatabase("test");
+        MongoCollection<Document> collection = db.getCollection("alarms");
+        //db.createCollection("alarms");
+        Document document = new Document();
+        document.append("date", Utils.convertDateToString(new Date()));
+        document.append("disable", false);
+        document.append("name", Utils.getRandomNameAlarm());
+        document.append("ringtone", "Leonard Cohen - Avalanche");
+        document.append("schedule", Schedule.ONCE.toString());
+        collection.insertOne(document);
     }
 
     @PreDestroy

@@ -18,7 +18,7 @@ public enum Schedule {
 
     public static Schedule determineSchedule(final String stringValue) {
         for (Schedule scheduleObject : values()) {
-            if (stringValue.equals(scheduleObject.getValue())) {
+            if (stringValue.equalsIgnoreCase(scheduleObject.getValue())) {
                 return scheduleObject;
             }
         }

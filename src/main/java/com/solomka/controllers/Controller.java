@@ -5,8 +5,8 @@ import com.solomka.models.Schedule;
 import com.solomka.models.dtos.CreateAlarmDto;
 import com.solomka.models.dtos.CreateScheduleDto;
 import com.solomka.models.dtos.UpdateAlarmDto;
-import com.solomka.models.dtos.UpdateScheduleDto;
 import com.solomka.repositories.MongoRepository;
+import com.solomka.services.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,16 +19,16 @@ import java.util.List;
 @RestController
 public class Controller {
 
-    private final MongoRepository mongoRepository;
+    private final MongoService mongoService;
 
     @Autowired
-    public Controller(MongoRepository mongoRepository) {
-        this.mongoRepository = mongoRepository;
+    public Controller(MongoService mongoService) {
+        this.mongoService = mongoService;
     }
 
     @GetMapping(value = "/alarms")
     public ResponseEntity<List<Alarm>> getAlarms() throws ParseException {
-        var alarms = mongoRepository.getAlarms();
+        var alarms = mongoService.getAlarms();
         return new ResponseEntity<>(alarms, HttpStatus.OK);
     }
 
@@ -37,13 +37,7 @@ public class Controller {
     public ResponseEntity<?> addAlarm(
             @RequestBody CreateAlarmDto createAlarmDto
     ) {
-        Alarm alarm = new Alarm();
-        alarm.setName(createAlarmDto.getName());
-        alarm.setDate(createAlarmDto.getDate());
-        alarm.setRingtone(createAlarmDto.getRingtone());
-        alarm.setDisable(false);
-        alarm.setSchedule(Schedule.ONCE);
-        var result = mongoRepository.addAlarm(alarm);
+        var result = mongoService.addAlarm(createAlarmDto);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
@@ -53,24 +47,18 @@ public class Controller {
             @PathVariable("id") String alarmId,
             @RequestBody UpdateAlarmDto updateAlarmDto
     ) {
-        System.out.println("updateAlarmDto = " + updateAlarmDto);
-        var result = mongoRepository.updateAlarm(alarmId, updateAlarmDto);
+        var result = mongoService.updateAlarm(alarmId, updateAlarmDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/alarms/schedule/add/{id}")
+    @PostMapping(value = "/alarms/schedule/{id}")
     public ResponseEntity<?> addSchedule(
             @PathVariable("id") String alarmId,
             @RequestBody CreateScheduleDto createScheduleDto
-    ) {
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @PostMapping(value = "/alarms/schedule/{id}")
-    public ResponseEntity<?> updateSchedule(
-            @PathVariable("id") String alarmId,
-            @RequestBody UpdateScheduleDto updateScheduleDto
-    ) {
-        return new ResponseEntity<>(HttpStatus.OK);
+            ) {
+        var result = mongoService.addSchedule(alarmId, createScheduleDto);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 }
+
+
