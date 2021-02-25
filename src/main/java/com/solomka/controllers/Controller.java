@@ -26,7 +26,8 @@ public class Controller {
         this.mongoService = mongoService;
     }
 
-    @GetMapping(value = "/alarms")
+    @GetMapping(value = "/alarms",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Alarm>> getAlarms() throws ParseException {
         var alarms = mongoService.getAlarms();
         return new ResponseEntity<>(alarms, HttpStatus.OK);
@@ -51,7 +52,8 @@ public class Controller {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/alarms/schedule/{id}")
+    @PostMapping(value = "/alarms/schedule/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addSchedule(
             @PathVariable("id") String alarmId,
             @RequestBody CreateScheduleDto createScheduleDto
