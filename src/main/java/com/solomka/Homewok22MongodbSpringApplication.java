@@ -32,8 +32,8 @@ public class Homewok22MongodbSpringApplication {
     @SneakyThrows
     public void fillMongoDB() {
         var db = mongoClient.getDatabase("test");
+        db.createCollection("alarms");
         MongoCollection<Document> collection = db.getCollection("alarms");
-        //db.createCollection("alarms");
         Document document = new Document();
         document.append("date", Utils.convertDateToString(new Date()));
         document.append("disable", false);
@@ -45,9 +45,6 @@ public class Homewok22MongodbSpringApplication {
 
     @PreDestroy
     public void closeConnection() {
-//        var db = mongoClient.getDatabase("test");
-//        MongoCollection<Document> collection = db.getCollection("alarms");
-//        collection.drop();
         mongoClient.close();
     }
 }
