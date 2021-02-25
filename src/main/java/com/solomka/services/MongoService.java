@@ -3,19 +3,16 @@ package com.solomka.services;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.solomka.Utils;
+import com.solomka.exceptions.IllegalScheduleException;
 import com.solomka.models.Alarm;
 import com.solomka.models.Schedule;
 import com.solomka.models.dtos.CreateAlarmDto;
 import com.solomka.models.dtos.CreateScheduleDto;
 import com.solomka.models.dtos.UpdateAlarmDto;
 import com.solomka.repositories.MongoRepository;
-import org.bson.Document;
-import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,7 +41,7 @@ public class MongoService {
         return mongoRepository.updateAlarm(alarmId, updateAlarmDto);
     }
 
-    public boolean addSchedule(String alarmId, CreateScheduleDto createScheduleDto) {
+    public boolean addSchedule(String alarmId, CreateScheduleDto createScheduleDto) throws IllegalScheduleException {
         Schedule schedule = Utils.convertStringToSchedule(createScheduleDto.getSchedule());
         return mongoRepository.addSchedule(alarmId, schedule);
     }

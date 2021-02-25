@@ -1,5 +1,6 @@
 package com.solomka;
 
+import com.solomka.exceptions.IllegalScheduleException;
 import com.solomka.models.Schedule;
 
 import java.text.ParseException;
@@ -27,7 +28,7 @@ public final class Utils {
         value = value.toLowerCase().trim();
         Schedule schedule = Schedule.determineSchedule(value);
         if(schedule == null){
-            throw new IllegalArgumentException();
+            throw new IllegalScheduleException();
         }
         return schedule;
     }

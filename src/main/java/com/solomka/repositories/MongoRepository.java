@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.solomka.Utils;
+import com.solomka.exceptions.IllegalScheduleException;
 import com.solomka.models.Alarm;
 import com.solomka.models.Schedule;
 import com.solomka.models.dtos.UpdateAlarmDto;
