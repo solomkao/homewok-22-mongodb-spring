@@ -1,0 +1,7 @@
+mongo:
+  image: mongo
+  container_name: mongodb-0
+  hostname: mongodb-0
+  ports:
+    - "27017:27017"
+  restart: always
